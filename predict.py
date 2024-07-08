@@ -31,6 +31,7 @@ class Predictor(BasePredictor):
         self.comfyUI.handle_weights(
             {},
             weights_to_download=[
+                "buffalo_l",
                 "appearance_feature_extractor.safetensors",
                 "landmark.onnx",
                 "motion_extractor.safetensors",
@@ -103,7 +104,7 @@ class Predictor(BasePredictor):
             description="Horizontal shift ratio", default=0, ge=-1.0, le=1.0
         ),
         live_portrait_vy_ratio: float = Input(
-            description="Vertical shift ratio", default=-0.125, ge=-1.0, le=1.0
+            description="Vertical shift ratio", default=-0.12, ge=-1.0, le=1.0
         ),
         live_portrait_lip_zero: bool = Input(
             description="Enable lip zero", default=True

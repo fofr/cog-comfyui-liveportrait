@@ -57,6 +57,9 @@ class Predictor(BasePredictor):
         load_video["frame_load_cap"] = kwargs["frame_load_cap"]
         load_video["select_every_n_frames"] = kwargs["select_every_n_frames"]
 
+        load_image = workflow["4"]["inputs"]
+        load_image["image"] = kwargs["face_filename"]
+
         live_portrait = workflow["30"]["inputs"]
         live_portrait["dsize"] = kwargs["dsize"]
         live_portrait["scale"] = kwargs["scale"]
@@ -84,7 +87,7 @@ class Predictor(BasePredictor):
         ),
         video_frame_load_cap: int = Input(
             description="The maximum number of frames to load from the driving video. Set to 0 to use all frames.",
-            default=64,
+            default=128,
         ),
         video_select_every_n_frames: int = Input(
             description="Select every nth frame from the driving video. Set to 1 to use all frames.",
@@ -155,8 +158,7 @@ class Predictor(BasePredictor):
             relative=live_portrait_relative,
         )
 
-        wf = self.comfyUI.load_workflow(workflow)
         self.comfyUI.connect()
-        self.comfyUI.run_workflow(wf)
+        self.comfyUI.run_workflow(workflow)
 
-        return self.comfyUI.get_files(OUTPUT_DIR)
+        return self.comfyUI.get_files(OUTPUT_DIR, file_extensions=["mp4"])

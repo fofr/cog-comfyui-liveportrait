@@ -198,24 +198,6 @@ class ComfyUI:
             else:
                 continue
 
-    def load_workflow(self, workflow):
-        if not isinstance(workflow, dict):
-            wf = json.loads(workflow)
-        else:
-            wf = workflow
-
-        # There are two types of ComfyUI JSON
-        # We need the API version
-        if any(key in wf.keys() for key in ["last_node_id", "last_link_id", "version"]):
-            raise ValueError(
-                "You need to use the API JSON version of a ComfyUI workflow. To do this go to your ComfyUI settings and turn on 'Enable Dev mode Options'. Then you can save your ComfyUI workflow via the 'Save (API Format)' button."
-            )
-
-        self.handle_known_unsupported_nodes(wf)
-        self.handle_inputs(wf)
-        self.handle_weights(wf)
-        return wf
-
     def reset_execution_cache(self):
         print("Resetting execution cache")
         with open("reset.json", "r") as file:
@@ -268,7 +250,15 @@ class ComfyUI:
                     files.extend(self.get_files(path, prefix=f"{prefix}{f}/"))
 
         if file_extensions:
-            files = [f for f in files if f.name.split(".")[-1] in file_extensions]
+            # Filter files by file extension
+            # file_extensions is a list of file extensions to filter by
+            # e.g. ["jpg", "png"] will return only jpg and png files
+            files = [
+                f
+                for f in files
+                if f.name.split(".")[-1].lower()
+                in [ext.lower().strip(".") for ext in file_extensions]
+            ]
 
         return sorted(files)
 

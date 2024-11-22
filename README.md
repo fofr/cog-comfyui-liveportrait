@@ -7,6 +7,8 @@ A cog implementation of LivePortrait using the ComfyUI custom node
 - Paper: https://arxiv.org/pdf/2407.03168
 - Website: https://liveportrait.github.io/
 
+[![Try a demo on Replicate](https://replicate.com/fofr/live-portrait/badge)](https://replicate.com/fofr/live-portrait)
+
 ## Example driving videos
 
 Try these videos:
